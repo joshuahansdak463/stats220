@@ -1,0 +1,67 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+body {
+  background-color: #00FFFF;
+  font-weight: bold;
+}
+
+h1 {
+  color: #4B0082, 
+  font-weight: bold;
+  
+}
+```
+
+## My dynamic report is investigating various features of YouTube videos and analysing the various features of those YouTube videos.
+
+You need to change the contents of this Rmd! Replace the R code and markdown give below in this template document.
+
+```{r}
+
+library(tidyverse)
+
+csv_file <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vSAvpsiTZH5l-eorexxcHgBWLoFWqtSALnmqBPRsnF0bRLwO0RAxBLmyd8o7Rs-QJJV3KTq6vVcLvEY/pub?output=csv"
+
+logged_data <- read_csv(csv_file)
+
+latest_data <- logged_data %>%
+  rename(visuals_in_thumbnail  = 2,
+         number_of_words_in_title = 3,
+         duration_of_video = 4)
+
+
+minimum <- latest_data$number_of_words_in_title %>% min() 
+maximum <-  latest_data$number_of_words_in_title %>% max()
+latest_data %>%
+  ggplot() +
+  geom_bar(aes(x = number_of_words_in_title))
+
+#This code is meant to calculate the mean of the data stored in the variable number_of_words_in_title which returns the mean which is rounded.
+mean_number_of_words_in_title <- latest_data$number_of_words_in_title %>% mean() %>% round()
+#This code is meant to calculate the length of the data stored in the variable number_of_words_in_title which returns the number of elements in the variable number_of_words_in_title.
+mean_length_of_number_of_words_in_title <- latest_data$number_of_words_in_title %>% length() 
+#This code creates a bar graph where the x axis is visuals_in_thumbnail.
+latest_data %>%
+  ggplot() +
+  geom_bar(aes(x = visuals_in_thumbnail))
+
+#This code creates a bar graph where the x axis is the duration of the video.
+latest_data %>%
+  ggplot() +
+  geom_bar(aes(x = duration_of_video))
+
+paste("The mean number of words in the title was", mean_number_of_words_in_title)
+paste("The length of the data stored in the variable, number of words in title was", mean_length_of_number_of_words_in_title)
+
+```
+
+[Where I collected my data from - YouTube](https://www.youtube.com/)
