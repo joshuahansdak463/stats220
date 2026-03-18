@@ -14,7 +14,7 @@
 - A **meme** that captures how I currently feel about my *university studies* is ![](https://media1.tenor.com/m/oduSMgHhdZwAAAAC/thumbs-up.gif)
 
 <ul>
-  <li> These is the link of the website of where I got my meme from:
+  <li> This is the link of the website of where I got my meme from:
     ![](https://tenor.com) </li>
 </ul>
 
