@@ -1,0 +1,98 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+
+h2 {
+  color: #FFCB0D;
+  font-weight: bold;
+}
+
+body {
+  background-color: #FF0066;
+}
+
+p {
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+
+```
+
+## Various attributes of Instagram reels 
+
+
+```{r}
+library(tidyverse)
+
+logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vSt2V-43IeXBaMAoIZLLypDTAOTR7-OJEa96T5FzrZe-KbyKnWmFooR-SLVZVp7jk3SqYAxGhVCs6Ob/pub?output=csv")
+
+latest_data <- logged_data %>% rename(number_of_followers = 2,
+                                      soundtrack_involved = 3,
+                                      number_of_posts = 4)
+
+number_of_reels = length(latest_data$soundtrack_involved)
+
+plot_random_number_of_followers <- latest_data %>%
+  ggplot() +
+  geom_bar(aes(x = number_of_followers), fill = "#ED3285") 
+
+plot_random_number_of_posts <- latest_data %>%
+  ggplot() +
+  geom_bar(aes(x = number_of_posts))
+
+# This part of code represents the calculation of the mean number of posts, where the mean was 1616 (1615.77),
+# followed by the minimum number of followers and the maximum number of followers. I decided to
+# calculate the mean number of posts, so that I could compare it with the number of posts that is made by various Instagram accounts.
+
+# I decided to calculate the minimum and maximum number of followers because I was interested in the
+# difference between the maximum and minimum number of followers to see how wide of a range there is between the two values,
+# and how the followers of the accounts fit in that range.
+
+mean_number_of_posts = mean(latest_data$number_of_posts) 
+minimum_number_followers = min(latest_data$number_of_followers)
+maximum_number_followers = max(latest_data$number_of_followers)
+range_of_number_of_followers = maximum_number_followers - minimum_number_followers
+
+# There were various graphs that I had tried and tested. Ultimately, I decided to produce the
+# following plots which where based on the number of reels that included a soundtrack vs those reels that
+# didn't contain a soundtrack. I chose to use the variable soundtrack_involved when assigning it to fill, as the colours both add an aesthetics yet simple look.
+
+# For the second plot, I decided to produce a graph where different values of the variable, number_of_followers, could be visualised. 
+# In the plot, I took a few random samples by using the slice method, resulting in 5 values with a range of
+# number of followers. I also used a hot pink colour to fill the bars in the plot, because I wanted the colour
+# of the bars to resemble the Instagram theme.
+
+
+plot_of_soundtrack_involved <- latest_data %>%
+  ggplot() +
+  geom_bar(aes(x = soundtrack_involved, fill = soundtrack_involved))
+
+
+plot_random_number_of_followers <- latest_data %>%
+  slice(13 : 17) %>%
+  ggplot() +
+  geom_bar(aes(x = number_of_followers), fill = "#ED3285") +
+  
+  labs(title = "Number of followers of accounts that posted reels",
+       subtitle = "Range of number of followers of Instagram accounts that posted on reels",
+       caption = "Instagram reels",
+       x = "Number of followers")
+
+plot_of_soundtrack_involved
+plot_random_number_of_followers
+
+paste("The mean number of posts that were made was", mean_number_of_posts)
+paste("The range of followers from the accounts that posted reels was between", minimum_number_followers, "and", maximum_number_followers,"(", range_of_number_of_followers, ")")
+
+```
+
+[The website of where I collected my data from](https://www.instagram.com/)
